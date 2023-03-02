@@ -18,8 +18,17 @@
 // newList[0].style.color="blue";
 
   //queryslector-->only use for one item;
-  let SecItem = document.querySelector(".list-group-item:nth-child(2)");
-  SecItem.style.backgroundColor="green";
+//   let SecItem = document.querySelector(".list-group-item:nth-child(2)");
+//   SecItem.style.backgroundColor="green";
 
- let thirdItem = document.querySelector(".list-group-item:nth-child(3)");
- thirdItem.style.display="none";
+//  let thirdItem = document.querySelector(".list-group-item:nth-child(3)");
+//  thirdItem.style.display="none";
+
+//queryslectorall
+let SecItem = document.querySelectorAll("#items li")[1];
+SecItem.style.color="green";
+
+let odd = document.querySelectorAll('li:nth-child(odd)');
+for(let i =0; i<odd.length; i++){
+    odd[i].style.backgroundColor="green";
+}
