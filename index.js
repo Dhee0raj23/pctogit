@@ -25,10 +25,49 @@
 //  thirdItem.style.display="none";
 
 //queryslectorall
-let SecItem = document.querySelectorAll("#items li")[1];
-SecItem.style.color="green";
+// let SecItem = document.querySelectorAll("#items li")[1];
+// SecItem.style.color="green";
 
-let odd = document.querySelectorAll('li:nth-child(odd)');
-for(let i =0; i<odd.length; i++){
-    odd[i].style.backgroundColor="green";
-}
+// let odd = document.querySelectorAll('li:nth-child(odd)');
+// for(let i =0; i<odd.length; i++){
+//     odd[i].style.backgroundColor="green";
+// }
+
+let itemList = document.querySelector('#items');
+
+console.log(itemList.parentElement);
+itemList.parentElement.style.backgroundColor='#f4f4f4';  //parentelement;
+
+console.log(itemList.lastElementChild);
+itemList.lastElementChild.textContent='hi';  //lastelementchild;
+
+console.log(itemList.lastChild); //lastchild;
+
+console.log(itemList.firstElementChild);
+itemList.firstElementChild.textContent='hi2';   //firstelementchild;
+
+console.log(itemList.firstChild);   //firstChild;
+
+console.log(itemList.nextSibling);  //nextSibiling;
+
+console.log(itemList.nextElementSibling);  //nextElementsibiling;
+
+console.log(itemList.previousSibling);    //previousSibling
+
+console.log(itemList.previousElementSibling);       //previousElementSibling;
+
+let newDiv = document.createElement('div');     //create element;
+newDiv.className='hello';    //add class;
+newDiv.id='hello1'        //add id;
+newDiv.setAttribute('titlt' , 'hello Div');   //add attribute;
+
+let newDivText = document.createTextNode('HEllo word ');    //create textNode;
+newDiv.appendChild(newDivText);       //appendchild;
+
+let container = document.querySelector('header .container');
+let h1 = document.querySelector('header h1');
+container.insertBefore(newDiv , h1);
+
+// let container1 = document.querySelector('header .container');
+// let h2 = document.querySelector('header h2');
+// container1.insertBefore(newDiv , h2);
