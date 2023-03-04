@@ -1,17 +1,15 @@
-var form = document.querySelector('form');
-form.addEventListener('submit', saveUserDetails);
+let myObj = {
+   name: "Dheeraj",
+   age: 23
+}; 
+
+let myObj_Serialized = JSON.stringify(myObj);
 
 
-function saveUserDetails(event) {
-  event.preventDefault();
-  var nameInput = document.getElementById('name');
-  var emailInput = document.getElementById('email');
-  var name = nameInput.value;
-  var email = emailInput.value;
-  localStorage.setItem('name', name);
-  localStorage.setItem('email', email);
-  
-}
+localStorage.setItem("myObj",myObj_Serialized);
+console.log(localStorage);
 
-
-
+let myobj2={name:'dhee', age:93};
+let mos = JSON.stringify(myobj2);
+localStorage.setItem("myobj2", mos);
+console.log(localStorage);
