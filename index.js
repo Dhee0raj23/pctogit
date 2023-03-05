@@ -1,23 +1,17 @@
-var form = document.querySelector('form');
-form.addEventListener('submit', saveUserDetails);
-
-
-function saveUserDetails(event) {
+function toLocalStorage(event) {
   event.preventDefault();
-  var nameInput = document.getElementById('name');
-  var emailInput = document.getElementById('email');
-  var name = nameInput.value;
-  var email = emailInput.value;
-  // localStorage.setItem('name', name);
-  // localStorage.setItem('email', email);
-
-  let obj = {name, email};
-  localStorage.setItem("obj",obj);
-  let objs = JSON.stringify(obj);
-  localStorage.setItem("obj", objs);
-  
+  const name = event.target.name.value;
+  const email = event.target.email.value;
+  const phoneNumber = event.target.phonenumber.value;
+  const obj = { name, email, phoneNumber };
+  localStorage.setItem(obj.email, JSON.stringify(obj));
+  showUserOnScreen(obj);
 }
-
-
-
-
+function showUserOnScreen(obj) {
+  const parentElement = document.getElementById('listOfItem');
+  const childElement = document.createElement('li');
+  childElement.textContent = obj.name + ' - ' + obj.email + ' - ' + obj.phoneNumber;
+  parentElement.appendChild(childElement);
+}
+const form = document.querySelector('form');
+form.addEventListener('submit', toLocalStorage);
