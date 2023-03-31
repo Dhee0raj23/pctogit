@@ -1,35 +1,68 @@
-function toLocalStorage(event) {
-  event.preventDefault();
-  const name = event.target.name.value;
-  const email = event.target.email.value;
-  const phoneNumber = event.target.phonenumber.value;
-  const obj = { name, email, phoneNumber };
-  localStorage.setItem(obj.email, JSON.stringify(obj));
-  showUserOnScreen(obj);
-  event.target.reset();
-}
-function showUserOnScreen(obj) {
-  const parentElement = document.getElementById('listOfItem');
-  const childElement = document.createElement('li');
-  childElement.setAttribute('data-email', obj.email);
-  childElement.textContent = obj.name + ' - ' + obj.email + ' - ' + obj.phoneNumber;
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'Delete';
-  deleteButton.addEventListener('click', deleteItem);
-  childElement.appendChild(deleteButton);
-  parentElement.appendChild(childElement);
-}
-function deleteItem(event) {
-  const li = event.target.parentElement;
-  const email = li.getAttribute('data-email');
-  localStorage.removeItem(email);
-  li.remove();
-}
-const form = document.querySelector('form');
-form.addEventListener('submit', toLocalStorage);
+var form = document.getElementById('inputs');
+var itemList = document.getElementById('items');
 
-for (let i = 0; i < localStorage.length; i++) {
-  const email = localStorage.key(i);
-  const obj = JSON.parse(localStorage.getItem(email));
-  showUserOnScreen(obj);
+
+form.addEventListener('submit', addLi);
+
+function addLi(e){                                              //add li 
+    e.preventDefault();
+    var newItem=document.getElementById('addExpance').value;
+    var newItem1=document.getElementById('description').value;
+    var newItem2=document.getElementById('catagory').value;
+    var li = document.createElement('li');
+    li.className='list-group-item';
+    li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode("-"+newItem1))
+    li.appendChild(document.createTextNode("-"+newItem2));
+    var delBtn = document.createElement('button');             //REMOVE BUTTON
+    delBtn.className='btn btn-outline-dark btn-sm float-end delete';
+    delBtn.appendChild(document.createTextNode('Remove'));
+    li.appendChild(delBtn);
+    var editBtn = document.createElement('button');            //EDIT BUTTON
+    editBtn.className='btn btn-outline-dark btn-sm float-end edit';
+    editBtn.appendChild(document.createTextNode('Edit'));
+    li.appendChild(editBtn);
+    itemList.appendChild(li);   
+}
+
+form.addEventListener('submit',storeInLocal);
+function storeInLocal(e){
+    e.preventDefault();
+    var ae=e.target.addExpance.value;
+    var dec=e.target.description.value;
+    var cat = e.target.catagory.value;
+
+    const obj={
+        ae,
+        dec,
+        cat
+    };
+    localStorage.setItem(obj.ae, JSON.stringify(obj));
+    itemList.addEventListener('click',editItem);
+      
+}
+
+
+itemList.addEventListener('click', removeItem);
+
+function removeItem(e) {
+  if (e.target.classList.contains('delete')) {
+    var li = e.target.parentElement;
+    var itemName = li.firstChild.textContent;
+    itemList.removeChild(li);
+    localStorage.removeItem(itemName);  // Remove the item from local storage
+  }
+}
+
+itemList.addEventListener('click',editItem);
+function editItem(e){
+    e.preventDefault();
+    var li = e.target.parentElement;
+    var itemName=li.firstChild.textContent;
+    itemList.removeChild(li);
+    localStorage.removeItem(itemName);
+    document.getElementsById('addExpance').value=obj.ae;
+    document.getElementById('description').value=obj.dec;
+    document.getElementById('catagory').value=obj.cat;
+
 }
