@@ -7,7 +7,13 @@
   <title>Document</title>
 </head>
 <body>
-  <button id="button">Click Me</button>
+  <form onsubmit="saveToLocalStorage(event)">
+    Name:<input type="text" id="name" name="name">
+    Email id:<input type="email" id="email" name="email">
+    Phone Number:<input type="text" id="phone" name="phone">
+    <button id="submitBtn">Submit</button>
+  </form>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 <script src="boot.js"></script>
 </html>
