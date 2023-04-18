@@ -9,29 +9,52 @@ function saveToLocalStorage(event){
         email,
         phoneNo
     }
-    axios.post("https://crudcrud.com/api/a5803a72ef2543049493a74ddb959d22/appointmentData",obj)
+    axios.post("https://crudcrud.com/api/07c6ad5d0a12453d94084c07e59d0a1e/appointmentData",obj)
     .then((response)=>{
         console.log(response)
     })
     .catch((err)=>{
         console.log(err)
     })
+    //localStorage.setItem(obj.email,JSON.stringify(obj))
+    //showNewUserOnScreen(obj)
 }
+
 window.addEventListener("DOMContentLoaded",()=>{
-    axios.get("https://crudcrud.com/api/a5803a72ef2543049493a74ddb959d22")
+    axios.get("https://crudcrud.com/api/07c6ad5d0a12453d94084c07e59d0a1e/appointmentData")
     .then((response)=>{
+        for(var i=0; i<response.data.length; i++){
+            showNewUserOnScreen(response.data[i])
+        }
         console.log(response)
     })
-    .catch((error)=>{
-        console.log(error)
+    .catch((err)=>{
+        console.log(err)
     })
-
 })
-function showNewUserOnScreen(obj){
-    
-    const parentElement=document.getElementById('listOfItems');
-    const childElement = document.createElement('li');
-    childElement.textContent=obj.name+'-'+obj.email+'-'+obj.phoneNo
-    parentElement.appendChild(childElement)
-}
 
+function showNewUserOnScreen(obj){
+    const parentElement = document.getElementById("listOfItems");
+      const childElement = document.createElement("li");
+      childElement.textContent = obj.name + "-" + obj.email + "-" + obj.phoneNo;
+      const deleteButton = document.createElement("input");
+      deleteButton.type = "button";
+      deleteButton.value = "delete";
+      deleteButton.onclick = () => {
+        axios
+          .delete(
+            `https://crudcrud.com/api/07c6ad5d0a12453d94084c07e59d0a1e/appointmentData/${obj._id}`
+          )
+          .then((response) => {
+            console.log(response);
+            localStorage.removeItem(obj.email);
+            parentElement.removeChild(childElement);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      childElement.appendChild(deleteButton);
+      parentElement.appendChild(childElement);
+    
+}
