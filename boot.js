@@ -54,7 +54,26 @@ function showNewUserOnScreen(obj){
             console.log(err);
           });
       };
+   
+
+      const editButton = document.createElement('input');
+      editButton.type='button';
+      editButton.value='edit';
+      editButton.onclick=()=>{
+        localStorage.removeItem(obj.email)
+        parentElement.removeChild(childElement)
+        document.getElementById('name').value=obj.name
+        document.getElementById('email').value=obj.email
+        document.getElementById('phone').value=obj.phoneNo
+      }
+      axios.put(`https://crudcrud.com/api/07c6ad5d0a12453d94084c07e59d0a1e/appointmentData/${userId}`, obj)
+      .then((response)=>{
+          console.log(response)
+      })
+      .catch((err)=>{
+          console.log(err)
+      })
       childElement.appendChild(deleteButton);
       parentElement.appendChild(childElement);
-    
+      childElement.appendChild(editButton)
 }
