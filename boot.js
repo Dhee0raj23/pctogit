@@ -16,6 +16,22 @@ function saveToLocalStorage(event){
     .catch((err)=>{
         console.log(err)
     })
-
-    
 }
+window.addEventListener("DOMContentLoaded",()=>{
+    axios.get("https://crudcrud.com/api/a5803a72ef2543049493a74ddb959d22")
+    .then((response)=>{
+        console.log(response)
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
+})
+function showNewUserOnScreen(obj){
+    
+    const parentElement=document.getElementById('listOfItems');
+    const childElement = document.createElement('li');
+    childElement.textContent=obj.name+'-'+obj.email+'-'+obj.phoneNo
+    parentElement.appendChild(childElement)
+}
+
