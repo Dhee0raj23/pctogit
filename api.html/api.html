@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form>
+    <label for="sellingPrice">Selling Price</label>
+    <input type="text" id="sellingPrice">
+    <label for="productName">Product Name</label>
+    <input type="text" id="productName"> 
+    <label for="category">Choose a Category:</label>
+    <select name="category" id="category">
+      <option value="e">Electronics</option>
+      <option value="f">Food items</option>
+      <option value="s">Skin care</option>
+    </select>
+    <button id="button" type="button">Add Product</button>
+  </form>
+  
+  <h1>Products</h1>
+  <h2>Electronic Items</h2>
+  <ul id="electronicsList"></ul>
+  
+  <h2>Food Items</h2>
+  <ul id="foodItemsList"></ul>
+  
+  <h2>Skin Care</h2>
+  <ul id="skinCareList"></ul>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script>
+function deleteItem(event) {
+  var listItem = event.target.parentElement;
+  var categoryList = listItem.parentElement;
+  categoryList.removeChild(listItem);
+
+  var productId = listItem.dataset.productId;
+  var url = "https://crudcrud.com/api/d8aabf3d27a74cf095f97bc6221b797a/product/" + productId;
+
+  axios.delete(url)
+    .then(function (res) {
+      console.log(res);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+window.addEventListener('load', populateLists);
+
+function populateLists() {
+  axios.get("https://crudcrud.com/api/d8aabf3d27a74cf095f97bc6221b797a/product")
+    .then(function (res) {
+      var products = res.data;
+      for (var i = 0; i < products.length; i++) {
+        var product = products[i];
+        var newItem = document.createElement("li");
+        newItem.textContent = product.productName + " - " + product.sellingPrice;
+        newItem.setAttribute("data-product-id", product._id);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", deleteItem);
+
+        newItem.appendChild(deleteButton);
+
+        if (product.category === "e") {
+          var electronicsList = document.getElementById("electronicsList");
+          electronicsList.appendChild(newItem);
+        } else if (product.category === "f") {
+          var foodItemsList = document.getElementById("foodItemsList");
+          foodItemsList.appendChild(newItem);
+        } else if (product.category === "s") {
+          var skinCareList = document.getElementById("skinCareList");
+          skinCareList.appendChild(newItem);
+        }
+      }
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
+document.getElementById("button").addEventListener("click", function(event) {
+  event.preventDefault(); 
+
+  var sellingPrice = document.getElementById("sellingPrice").value;
+  var productName = document.getElementById("productName").value;
+  var category = document.getElementById("category").value;
+
+  const obj = {
+    sellingPrice,
+    productName,
+    category
+  };
+  
+  axios.post("https://crudcrud.com/api/d8aabf3d27a74cf095f97bc6221b797a/product",obj)  //axios post request
+  .then((res)=>console.log(res))
+  .catch((err)=>console.log(err))
+
+
+  var newItem = document.createElement("li");
+  newItem.textContent = productName + " - " + sellingPrice;
+
+  var deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", deleteItem);
+
+  if (category === "e") {
+    var electronicsList = document.getElementById("electronicsList");
+    newItem.appendChild(deleteButton);
+    electronicsList.appendChild(newItem);
+  } else if (category === "f") {
+    var foodItemsList = document.getElementById("foodItemsList");
+    newItem.appendChild(deleteButton);
+    foodItemsList.appendChild(newItem);
+  } else if (category === "s") {
+    var skinCareList = document.getElementById("skinCareList");
+    newItem.appendChild(deleteButton);
+    skinCareList.appendChild(newItem);
+  }
+
+  
+});
+
+
+
+
+</script>
+</html>
